@@ -74,9 +74,9 @@ export default function Home({ arkInfo }) {
               </div>
             </div>
 
-            <div className="">
+            {/* <div className="">
               <h6 className="m-0">Ping: {serverInfo.ping}</h6>
-            </div>
+            </div> */}
           </div>
 
           <div className="my-3 p-3 bg-body rounded shadow-sm">
