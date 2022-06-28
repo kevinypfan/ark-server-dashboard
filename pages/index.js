@@ -1,10 +1,9 @@
 import {useState, useEffect} from 'react'
 
 export default function Home({arkInfo}) {
-  const [serverInfo, setServerInfo] = useState(null)
+  const [serverInfo, setServerInfo] = useState(arkInfo)
 
   useEffect(() => {
-    setServerInfo(arkInfo)
     setInterval(async () => {
       const res = await fetch(`/api/arkInfo?host=${process.env.NEXT_PUBLIC_GAME_HOST}&type=${process.env.NEXT_PUBLIC_GAME_TYPE}`)
       const data = await res.json()
