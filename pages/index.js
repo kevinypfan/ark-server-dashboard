@@ -1,17 +1,21 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from "react";
 
-export default function Home({arkInfo}) {
-  const [serverInfo, setServerInfo] = useState(arkInfo)
+export default function Home({ arkInfo }) {
+  const [serverInfo, setServerInfo] = useState(arkInfo);
 
   useEffect(() => {
-    setInterval(async () => {
-      const res = await fetch(`/api/arkInfo?host=${process.env.NEXT_PUBLIC_GAME_HOST}&type=${process.env.NEXT_PUBLIC_GAME_TYPE}`)
-      const data = await res.json()
-      setServerInfo(data)
-    }, 15000)
-  }, [])
-  
+    let id = setInterval(async () => {
+      const res = await fetch(
+        `/api/arkInfo?host=${process.env.NEXT_PUBLIC_GAME_HOST}&type=${process.env.NEXT_PUBLIC_GAME_TYPE}`
+      );
+      const data = await res.json();
+      setServerInfo(data);
+    }, 15000);
+    return () => clearInterval(id)
+  }, []);
+
   function formatSecend(secend) {
+    if (!secend) return "時間載入中...";
     let remain = secend;
 
     let h = 0;
@@ -36,43 +40,42 @@ export default function Home({arkInfo}) {
       <h1 className="h1">
         Game: {serverInfo ? serverInfo.raw.game : "Unknown Server"}
       </h1>
-      {
-        !serverInfo && (
-          <div className="d-flex align-items-center">
-            <div>
-              <h6 className="m-0">伺服器狀態: </h6>
-            </div>
-
-            <div
-              style={{ height: "4px", width: "4px" }}
-              className={
-                "mx-2 p-2 border border-light rounded-circle bg-danger"
-              }
-            >
-              {/* success, danger */}
-              <span className="visually-hidden">Connected</span>
-            </div>
+      {!serverInfo && (
+        <div className="d-flex align-items-center">
+          <div>
+            <h6 className="m-0">伺服器狀態: </h6>
           </div>
-        )
-      }
+
+          <div
+            style={{ height: "4px", width: "4px" }}
+            className={"mx-2 p-2 border border-light rounded-circle bg-danger"}
+          >
+            {/* success, danger */}
+            <span className="visually-hidden">Disconnected</span>
+          </div>
+        </div>
+      )}
       {serverInfo && (
         <>
           <h1 className="h2">
             Server: {serverInfo.name}, Map: {serverInfo.map}
           </h1>
-          <div className="d-flex align-items-center">
-            <div>
+          <div className="d-flex align-items-center mt-4">
+            <div className="d-flex">
               <h6 className="m-0">伺服器狀態: </h6>
+              <div
+                style={{ height: "4px", width: "4px" }}
+                className={
+                  "mx-2 p-2 border border-light rounded-circle bg-success"
+                }
+              >
+                {/* success, danger */}
+                <span className="visually-hidden">Connected</span>
+              </div>
             </div>
 
-            <div
-              style={{ height: "4px", width: "4px" }}
-              className={
-                "mx-2 p-2 border border-light rounded-circle bg-success"
-              }
-            >
-              {/* success, danger */}
-              <span className="visually-hidden">Disconnected</span>
+            <div className="">
+              <h6 className="m-0">Ping: {serverInfo.ping}</h6>
             </div>
           </div>
 
@@ -95,7 +98,7 @@ export default function Home({arkInfo}) {
                   </svg>
                   <p className="mb-0 small lh-sm">
                     <strong className="d-block text-gray-dark">
-                      @ {player.name}
+                      @ {player.name ? player.name : "名稱載入中..."}
                     </strong>
                     在線時間: {formatSecend(player.raw.time)}
                     {/* Some representative placeholder content, with some information
@@ -112,13 +115,14 @@ export default function Home({arkInfo}) {
   );
 }
 
-
 export async function getServerSideProps() {
-  console.log(process.env)
+  console.log(process.env);
   // Fetch data from external API
-  const res = await fetch(`http://localhost:${process.env.PORT}/api/arkInfo?host=${process.env.NEXT_PUBLIC_GAME_HOST}&type=${process.env.NEXT_PUBLIC_GAME_TYPE}`)
-  const data = await res.json()
+  const res = await fetch(
+    `http://localhost:${process.env.PORT}/api/arkInfo?host=${process.env.NEXT_PUBLIC_GAME_HOST}&type=${process.env.NEXT_PUBLIC_GAME_TYPE}`
+  );
+  const data = await res.json();
 
   // Pass data to the page via props
-  return { props: { arkInfo: data } }
+  return { props: { arkInfo: data } };
 }
