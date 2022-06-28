@@ -47,7 +47,7 @@ export default function Home({arkInfo}) {
             <div
               style={{ height: "4px", width: "4px" }}
               className={
-                "mx-2 p-2 border border-light rounded-circle bg-success"
+                "mx-2 p-2 border border-light rounded-circle bg-danger"
               }
             >
               {/* success, danger */}

@@ -22,7 +22,5 @@ COPY --from=builder /my-project/package.json ./package.json
 EXPOSE 3000
 
 ENV PORT 3000
-ENV NEXT_PUBLIC_GAME_HOST localhost
-ENV NEXT_PUBLIC_GAME_TYPE arkse
 
 CMD ["yarn", "start"]
