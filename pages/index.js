@@ -50,7 +50,7 @@ export default function Home({arkInfo}) {
               }
             >
               {/* success, danger */}
-              <span className="visually-hidden">New alerts</span>
+              <span className="visually-hidden">Connected</span>
             </div>
           </div>
         )
@@ -72,7 +72,7 @@ export default function Home({arkInfo}) {
               }
             >
               {/* success, danger */}
-              <span className="visually-hidden">New alerts</span>
+              <span className="visually-hidden">Disconnected</span>
             </div>
           </div>
 
