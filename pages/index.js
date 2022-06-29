@@ -83,9 +83,9 @@ export default function Home({ arkInfo }) {
             <h6 className="border-bottom pb-2 mb-0">
               線上玩家: {serverInfo.raw.numplayers} / {serverInfo.maxplayers}
             </h6>
-            {serverInfo.players.map((player) => {
+            {serverInfo.players.map((player, index) => {
               return (
-                <div className="d-flex text-muted pt-3" key={player.name}>
+                <div className="d-flex text-muted pt-3" key={index}>
                   <svg
                     className="bd-placeholder-img flex-shrink-0 me-2 rounded"
                     xmlns="http://www.w3.org/2000/svg"
